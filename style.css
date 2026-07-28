@@ -12,6 +12,12 @@
   --banki-gray-text: #667085;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--apple-bg);
@@ -147,13 +153,24 @@ body {
   align-items: center;
   gap: 0.5rem;
   width: 100%;
+  padding: 0.2rem 0.1rem;
 }
 
 @media (max-width: 991px) {
   .filter-chips-row {
     overflow-x: auto;
-    padding-bottom: 0.35rem;
+    padding-bottom: 0.45rem;
     -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0.25rem;
+  }
+  .chip-select-wrapper, .chip-toggle {
+    scroll-snap-align: start;
+  }
+  .chip-select-btn, .chip-toggle {
+    min-height: 40px;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
   }
 }
 
@@ -214,7 +231,7 @@ body {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
-  z-index: 100;
+  z-index: 1000;
   min-width: 100%;
   width: max-content;
   max-width: 280px;
@@ -228,6 +245,11 @@ body {
   pointer-events: none;
   visibility: hidden;
   transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.18s;
+}
+
+.custom-dropdown-menu.is-fixed {
+  position: fixed !important;
+  z-index: 9999 !important;
 }
 
 .custom-dropdown-menu.open {
@@ -652,13 +674,25 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes modalScaleUp {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 /* Calculator Preset Buttons */
@@ -794,9 +828,12 @@ body {
 }
 
 @keyframes floatBounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-6px);
   }
@@ -810,112 +847,40 @@ body {
 }
 
 /* ==========================================================================
-   Mobile Version Responsive & Touch UX Optimizations (< 640px)
+   Mobile-Specific Layout Polish (< 640px)
    ========================================================================== */
-
-/* Universal Touch & High-DPI Polish */
-*, *::before, *::after {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* iOS Safari Prevent Forced Auto-Zoom on Form Focus */
 @media (max-width: 639px) {
-  input[type="text"],
-  input[type="number"],
-  select,
-  textarea {
-    font-size: 16px !important;
-  }
-}
-
-/* Mobile Filter Chips Row Momentum Scrolling & Touch Spacing */
-@media (max-width: 639px) {
-  .filter-chips-row {
-    padding-left: 0.15rem;
-    padding-right: 0.75rem;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: 0.25rem;
+  .banki-card-row {
+    border-radius: 1rem;
   }
 
-  .chip-select-wrapper,
-  .chip-toggle,
-  .chip-select-btn {
-    scroll-snap-align: start;
-    min-height: 40px;
+  .btn-banki-primary, .btn-banki-secondary {
+    flex: 1;
+    width: 50%;
+    text-align: center;
+    padding: 0.65rem 0.5rem;
+    font-size: 0.8125rem;
+    min-height: 42px;
   }
 
-  .chip-select {
-    padding-top: 0.6rem;
-    padding-bottom: 0.6rem;
-    padding-right: 2.2rem;
-  }
-}
-
-/* Mobile Card Items & Action Buttons Styling */
-@media (max-width: 639px) {
-  .banki-metric-cell {
-    min-width: 0;
-  }
-
-  .metric-value {
-    white-space: normal !important;
-    font-size: 0.875rem !important; /* 14px */
-    line-height: 1.3 !important;
-    word-break: break-word;
-  }
-
-  .metric-sub {
-    white-space: normal !important;
-    font-size: 0.7rem !important;
-  }
-
-  /* Full-width side-by-side action buttons for touch navigation */
-  .banki-card-action-btns {
-    width: 100%;
-    display: flex !important;
-    gap: 0.6rem !important;
-  }
-
-  .banki-card-action-btns .btn-banki-secondary,
-  .banki-card-action-btns .btn-banki-primary {
-    flex: 1 1 50% !important;
-    width: 50% !important;
-    padding: 0.7rem 0.5rem !important;
-    font-size: 0.8125rem !important;
-    justify-content: center !important;
-    text-align: center !important;
-    border-radius: 1.125rem !important;
-  }
-
-  /* Compact Drawer Padding on Mobile */
-  .card-details-drawer .p-5 {
-    padding: 1rem !important;
-  }
-
-  .card-details-drawer .py-4 {
-    padding-top: 0.65rem !important;
-    padding-bottom: 0.65rem !important;
-  }
-}
-
-/* Mobile Calculator Bottom-Sheet Modal Transformation */
-@media (max-width: 639px) {
   .calc-modal-overlay {
-    align-items: flex-end !important;
-    padding: 0 !important;
+    align-items: flex-end;
+    padding: 0;
   }
 
   .calc-modal-container {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-    border-top-left-radius: 1.5rem !important;
-    border-top-right-radius: 1.5rem !important;
-    max-height: 88vh !important;
-    overflow-y: auto !important;
-    padding: 1.25rem !important;
-    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)) !important;
-    animation: bottomSheetSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    border-bottom: none !important;
+    border-radius: 1.5rem 1.5rem 0 0;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom, 0px)) 1.25rem;
+    animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .floating-calc-btn {
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    right: 1rem;
+    padding: 0.75rem 1.2rem;
+    font-size: 0.825rem;
   }
 
   .calc-preset-btn {
@@ -924,22 +889,14 @@ body {
   }
 }
 
-@keyframes bottomSheetSlideUp {
+@keyframes modalSlideUp {
   from {
+    opacity: 0;
     transform: translateY(100%);
   }
-  to {
-    transform: translateY(0);
-  }
-}
 
-/* Floating Calculator Action Button Mobile Position & Safe-Area Inset */
-@media (max-width: 639px) {
-  .floating-calc-btn {
-    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)) !important;
-    right: 1rem !important;
-    padding: 0.75rem 1.25rem !important;
-    font-size: 0.85rem !important;
-    box-shadow: 0 10px 28px -4px rgba(18, 22, 41, 0.22) !important;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

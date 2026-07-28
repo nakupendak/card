@@ -105,7 +105,7 @@ function logCardClick(serviceName, refUrl) {
 }
 
 // Global helper alias for button click handling
-window.trackClick = function(serviceName, refUrl) {
+window.trackClick = function (serviceName, refUrl) {
   logCardClick(serviceName, refUrl);
 };
 
@@ -1403,7 +1403,7 @@ function renderCardHTML(item, isChild = false, childCards = [], isExpanded = fal
           </div>
 
           <!-- Col 3: Action Buttons (Подробнее & Далее) -->
-          <div class="banki-card-action-btns flex flex-row items-center justify-end gap-2.5 shrink-0">
+          <div class="flex flex-row items-center justify-end gap-2.5 shrink-0">
             <button type="button" id="${btnToggleId}" onclick="toggleCardDetails('${item.id}')" class="btn-banki-secondary">
               <span>Подробнее</span>
             </button>
@@ -1871,7 +1871,11 @@ function renderCards() {
 // Close all open custom dropdown menus
 function closeAllDropdowns() {
   document.querySelectorAll('.custom-dropdown-menu.open').forEach(menu => {
-    menu.classList.remove('open');
+    menu.classList.remove('open', 'is-fixed', 'align-right');
+    menu.style.position = '';
+    menu.style.top = '';
+    menu.style.left = '';
+    menu.style.width = '';
   });
   document.querySelectorAll('.chip-select-btn.is-open').forEach(btn => {
     btn.classList.remove('is-open');
@@ -1967,12 +1971,29 @@ function setupCustomDropdowns() {
         btn.classList.add('is-open');
         btn.setAttribute('aria-expanded', 'true');
 
-        // Adjust right alignment if overflowing window boundary
-        const rect = menu.getBoundingClientRect();
-        if (rect.right > window.innerWidth - 16) {
-          menu.classList.add('align-right');
+        const btnRect = btn.getBoundingClientRect();
+        if (window.innerWidth <= 991) {
+          const menuWidth = Math.min(260, window.innerWidth - 32);
+          menu.classList.add('is-fixed');
+          menu.style.position = 'fixed';
+          menu.style.top = `${btnRect.bottom + 6}px`;
+          let leftPos = btnRect.left;
+          if (leftPos + menuWidth > window.innerWidth - 16) {
+            leftPos = Math.max(16, window.innerWidth - menuWidth - 16);
+          }
+          menu.style.left = `${leftPos}px`;
+          menu.style.width = `${menuWidth}px`;
         } else {
-          menu.classList.remove('align-right');
+          menu.classList.remove('is-fixed');
+          menu.style.position = '';
+          menu.style.top = '';
+          menu.style.left = '';
+          menu.style.width = '';
+          if (btnRect.right > window.innerWidth - 16) {
+            menu.classList.add('align-right');
+          } else {
+            menu.classList.remove('align-right');
+          }
         }
       }
     });
@@ -1989,6 +2010,9 @@ function setupCustomDropdowns() {
       closeAllDropdowns();
     }
   });
+
+  // Close on window resize or scroll
+  window.addEventListener('resize', closeAllDropdowns);
 }
 
 // Synchronize custom dropdown state with native select state
