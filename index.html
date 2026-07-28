@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CardFlow — Каталог международных карт и способов оплаты 2026</title>
+  <meta name="description"
+    content="CardFlow — Удобный каталог виртуальных карт и сервисов оплаты за рубежом из РФ. Сравнение условий, комиссий и пополнения.">
+
+  <!-- Tailwind CSS CDN for Layout Grid & Utilities -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter, Plus Jakarta Sans, Outfit, Unbounded, Manrope -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@700;800&family=Unbounded:wght@700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body
+  class="bg-[#F4F5F7] text-[#121629] min-h-screen flex flex-col antialiased selection:bg-[#0052FF] selection:text-white relative">
+
+  <!-- Top Left Logo CardFlow -->
+  <div class="absolute top-4 left-4 sm:top-6 sm:left-8 z-20">
+    <a href="#" class="cardflow-logo inline-flex items-center gap-2 group decoration-none">
+      <svg class="w-6 h-6 sm:w-7 sm:h-7 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="5" width="20" height="14" rx="4" fill="url(#cardflow-logo-grad)" />
+        <path d="M2 9.5H22" stroke="white" stroke-width="1.5" stroke-opacity="0.25" />
+        <rect x="5" y="13.5" width="4" height="2.5" rx="0.75" fill="white" fill-opacity="0.85" />
+        <circle cx="17.5" cy="14.75" r="1.25" fill="white" fill-opacity="0.6" />
+        <defs>
+          <linearGradient id="cardflow-logo-grad" x1="2" y1="5" x2="22" y2="19" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0F172A" />
+            <stop offset="0.5" stop-color="#1E293B" />
+            <stop offset="1" stop-color="#2563EB" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="cardflow-logo-text text-lg sm:text-xl font-extrabold tracking-tight">CardFlow</span>
+    </a>
+  </div>
+
+  <!-- Hero Header Title -->
+  <header class="pt-16 sm:pt-10 pb-3 px-4 text-center max-w-4xl mx-auto">
+    <h1
+      class="hero-title text-2xl sm:text-4xl md:text-5xl font-black text-[#121629] tracking-tight leading-[1.15] mb-2">
+      Международные дебетовые карты
+    </h1>
+
+    <p class="text-xs sm:text-base text-zinc-500 font-medium max-w-xl mx-auto">
+      Сравнение условий виртуальных карт и сервисов оплаты за рубежом
+    </p>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
+
+    <!-- Google Flights Style Interactive Filter Bar -->
+    <div class="flex flex-col gap-3 mb-6">
+
+      <!-- Single-line Container for Filter Chips -->
+      <div class="w-full py-1">
+        <div class="filter-chips-row flex flex-nowrap items-center gap-2 w-full no-scrollbar">
+
+          <!-- Dropdown 1: Цель использования -->
+          <div class="chip-select-wrapper">
+            <select id="filter-category" class="chip-select">
+              <option value="all">Цель: Все цели</option>
+              <option value="subs">Подписки 🎬</option>
+              <option value="travel">За рубежом ✈️</option>
+            </select>
+            <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+
+          <!-- Dropdown 2: Способ Пополнения -->
+          <div class="chip-select-wrapper">
+            <select id="filter-deposit" class="chip-select">
+              <option value="all">Пополнение: Все способы</option>
+              <option value="rub">СБП / Карты РФ 💳</option>
+              <option value="crypto">USDT / Крипта 🪙</option>
+            </select>
+            <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+
+          <!-- Dropdown 3: Фильтр Цена -->
+          <div class="chip-select-wrapper">
+            <select id="filter-price" class="chip-select">
+              <option value="all">Цена: Все</option>
+              <option value="under1000">До 1 000 ₽</option>
+              <option value="under3000">До 3 000 ₽</option>
+              <option value="under5000">До 5 000 ₽</option>
+              <option value="from5000">От 5 000 ₽</option>
+            </select>
+            <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+
+          <!-- Dropdown 4: Сортировка -->
+          <div class="chip-select-wrapper">
+            <select id="filter-sort" class="chip-select">
+              <option value="popular">Сначала популярные</option>
+              <option value="price-asc">Сначала дешевле</option>
+              <option value="price-desc">Сначала дороже</option>
+            </select>
+            <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+
+          <!-- Quick Toggle Chip: Без паспорта -->
+          <button id="filter-nodocs" class="chip-toggle" type="button">
+            Без паспорта
+          </button>
+
+          <!-- Quick Toggle Chip: Apple Pay PNG -->
+          <button id="filter-applepay" class="chip-toggle" type="button" aria-label="Apple Pay">
+            <img src="applepay.png" alt="Apple Pay" class="applepay-chip-img">
+          </button>
+
+          <!-- Quick Toggle Chip: ТГ бот -->
+          <button id="filter-tgbot" class="chip-toggle" type="button">
+            <img src="tg.png" alt="Telegram" class="tg-chip-img">
+            <span>Все в ТГ</span>
+          </button>
+
+          <!-- Reset Filters Button -->
+          <button id="reset-filters-btn" type="button"
+            class="hidden items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-zinc-200 hover:bg-zinc-300 text-zinc-700 transition-all shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            Сбросить
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Secondary Search Bar & Items Counter -->
+      <div
+        class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white rounded-2xl p-3 border border-[#E2E4E9] shadow-xs">
+        <!-- Search Input -->
+        <div class="relative w-full sm:w-80">
+          <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input type="text" id="search-input" placeholder="Поиск по названию или условиям..."
+            class="w-full pl-10 pr-4 py-2 bg-[#F4F5F7] rounded-xl text-sm text-[#121629] placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#0052FF]/20 transition-all border border-transparent">
+        </div>
+
+        <!-- Counter -->
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end text-xs">
+          <span id="services-count" class="font-bold text-[#121629] bg-[#F4F5F7] px-3.5 py-1.5 rounded-lg">
+            Найдено: ...
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Cards Container (Banki.ru Table Layout) -->
+    <div id="cards-container" class="space-y-5 sm:space-y-6">
+      <!-- Loading Skeleton -->
+      <div class="bg-white rounded-2xl border border-[#E2E4E9] p-6 space-y-4 shadow-xs">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-9 rounded-lg skeleton shrink-0"></div>
+          <div class="space-y-2 flex-1">
+            <div class="h-4 w-1/3 skeleton rounded"></div>
+            <div class="h-3 w-1/2 skeleton rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Calculator Modal Overlay -->
+  <div id="calc-modal" class="calc-modal-overlay hidden" aria-hidden="true">
+    <div class="calc-modal-backdrop" onclick="closeCalculatorModal()"></div>
+    <div class="calc-modal-container">
+
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-[#EAECF0]">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-2xl bg-[#0052FF]/10 text-[#0052FF] flex items-center justify-center text-xl shrink-0">
+            🧮
+          </div>
+          <div>
+            <h3 class="text-lg font-extrabold text-[#121629] leading-tight">Калькулятор итоговой стоимости</h3>
+            <p class="text-xs text-zinc-500 font-medium">Расчет реальной суммы в рублях с комиссиями</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeCalculatorModal()"
+          class="w-8 h-8 rounded-full bg-[#F4F5F7] hover:bg-zinc-200 text-zinc-500 flex items-center justify-center transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Controls & Input Section -->
+      <div class="py-4 space-y-4">
+
+        <!-- Popular Presets -->
+        <div>
+          <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-2">Популярные
+            подписки:</label>
+          <div class="flex flex-wrap gap-1.5">
+            <button type="button" onclick="setCalcPreset(20, 'USD')" class="calc-preset-btn active" data-amount="20"
+              data-curr="USD">ChatGPT ($20)</button>
+            <button type="button" onclick="setCalcPreset(15.49, 'USD')" class="calc-preset-btn" data-amount="15.49"
+              data-curr="USD">Netflix ($15.49)</button>
+            <button type="button" onclick="setCalcPreset(10.99, 'USD')" class="calc-preset-btn" data-amount="10.99"
+              data-curr="USD">Spotify ($10.99)</button>
+            <button type="button" onclick="setCalcPreset(30, 'USD')" class="calc-preset-btn" data-amount="30"
+              data-curr="USD">Steam ($30)</button>
+            <button type="button" onclick="setCalcPreset(28.99, 'USD')" class="calc-preset-btn" data-amount="28.99"
+              data-curr="USD">TG Premium ($28.99)</button>
+          </div>
+        </div>
+
+        <!-- Custom Input & Currency & Exchange Rate -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-1">
+
+          <!-- Sum Input -->
+          <div class="sm:col-span-7">
+            <label class="block text-xs font-semibold text-[#121629] mb-1.5">Сумма покупки:</label>
+            <div class="relative flex items-center">
+              <input type="number" id="calc-amount-input" value="20" step="0.5" min="1" oninput="onCalcInputChange()"
+                class="w-full pl-3.5 pr-20 py-2.5 bg-[#F4F5F7] rounded-xl text-base font-bold text-[#121629] border border-transparent focus:bg-white focus:border-[#0052FF] focus:outline-none transition-all">
+              <div class="absolute right-2 flex items-center bg-white rounded-lg p-0.5 border border-[#E2E4E9]">
+                <button type="button" id="calc-curr-usd" onclick="setCalcCurrency('USD')"
+                  class="px-2 py-1 text-xs font-bold rounded-md bg-[#121629] text-white transition-all">$</button>
+                <button type="button" id="calc-curr-eur" onclick="setCalcCurrency('EUR')"
+                  class="px-2 py-1 text-xs font-bold rounded-md text-zinc-500 hover:text-black transition-all">€</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exchange Rate Input -->
+          <div class="sm:col-span-5">
+            <label class="block text-xs font-semibold text-[#121629] mb-1.5">Курс конвертации (₽):</label>
+            <div class="relative flex items-center">
+              <input type="text" id="calc-rate-input" placeholder="Курс сервиса" inputmode="decimal" oninput="onCalcInputChange()"
+                class="w-full px-3.5 py-2.5 bg-[#F4F5F7] rounded-xl text-base font-bold text-[#121629] placeholder:text-xs placeholder:font-normal placeholder:text-zinc-400 border border-transparent focus:bg-white focus:border-[#0052FF] focus:outline-none transition-all">
+              <span class="absolute right-3 text-xs font-semibold text-zinc-400">₽ / <span
+                  id="calc-rate-symbol">$</span></span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Results / Cards Comparison List -->
+      <div class="border-t border-[#EAECF0] pt-4">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Сравнение карт (итого к
+            оплате):</span>
+          <span class="text-[11px] text-zinc-400 font-medium">Конвертация + Пополнение + Выпуск</span>
+        </div>
+
+        <div id="calc-results-list" class="space-y-2.5 max-h-[340px] overflow-y-auto pr-1">
+          <!-- Dynamic calculation cards rendered via JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Minimal Footer -->
+  <footer class="border-t border-[#EAECF0] py-8 text-center text-xs text-zinc-400 bg-white">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>© 2026 CardFlow — Каталог способов оплаты за рубежом</p>
+      <p class="text-zinc-400">Данные синхронизируются автоматически</p>
+    </div>
+  </footer>
+
+  <!-- Floating Calculator Action Button (Bottom-Right) -->
+  <button type="button" id="floating-calc-btn" onclick="openCalculatorModal()" class="floating-calc-btn"
+    aria-label="Калькулятор">
+    <svg class="w-5 h-5 calc-btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+      </path>
+    </svg>
+    <span>Калькулятор</span>
+  </button>
+
+  <!-- Script Logic -->
+  <script src="script.js?v=4.0"></script>
+</body>
+
+</html>

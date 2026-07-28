@@ -1,0 +1,31 @@
+# Project Rules & Design Guidelines (.clinerules)
+
+## 🎨 UI & Design System Rules
+
+### 1. Badges, Pills & Feature Tags
+- **NO Borders/Outlines on Badges**: Never add visible borders (`border: 1px solid...`, `border-[#E2E4E9]`, `border-emerald-200`, etc.) to feature checkmark tags, pill badges, action tags (e.g., "Сравнить"), status indicators, or counter pills ("Найдено: X карт").
+- **Borderless Soft Fills**: Badges and tags must use soft background colors (e.g. `#F4F5F7`, `#F2F5FA`, `bg-emerald-50`) with `border: none` (or no Tailwind border class) and rounded corners (`border-radius: 1.25rem` / `rounded-xl`).
+- **Interactive State**: Hover states on badges should change the background fill color slightly (`#E4EBF5`), never add or highlight a border outline.
+
+### 2. General Visual Aesthetic
+- **Sleek & Premium**: Maintain high-end Apple / Banki.ru fintech aesthetics with clean cards, smooth shadows (`shadow-xs`, `shadow-sm`), and generous whitespace.
+- **Modern Typography**: Use `Inter` for body/metrics and `Unbounded` / `Manrope` for headers and pill controls with exact font-weight hierarchy.
+- **Micro-Animations**: All interactive buttons, hover states, and drawer toggles must use smooth bezier transitions (`transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1)`).
+
+---
+
+## 🛠️ Technical & Code Quality Rules
+
+### 1. CSS & Layout Standards
+- Keep `style.css` well-structured with descriptive section comments.
+- Avoid inline ad-hoc borders on tag/badge elements; rely on utility classes or `.banki-feature-tag` rules defined in `style.css`.
+
+### 3. Card Details Template ("Подробности по карте" / "Тарифы")
+- **Standardized Structure**: Every card details section/drawer must follow this exact hierarchy:
+  - **Тип карты**: `• [Mastercard Standard / Visa Virtual]`
+  - **Стоимость выпуска**: `• [Цена ₽]` with em-dash sub-bullet points (`— ...`)
+  - **Годовое обслуживание**: `• [Цена ₽]` with em-dash sub-bullet points (`— ...`)
+  - **Снятие наличных в любых банкоматах**: `• не предусмотрено` (or specified condition)
+  - **Варианты выпуска**: `• Цифровая` `i` (with tooltip icon)
+  - **Привилегии для держателей**: bullet list (`• ...`) specifying limits and balances.
+
