@@ -1883,7 +1883,7 @@ function closeAllDropdowns() {
   });
 }
 
-// Transform native select elements into custom site popover dropdowns
+// Transform native select elements into styled mobile-friendly select chips
 function setupCustomDropdowns() {
   const selectWrappers = document.querySelectorAll('.chip-select-wrapper');
 
@@ -1891,128 +1891,13 @@ function setupCustomDropdowns() {
     const select = wrapper.querySelector('select.chip-select');
     if (!select) return;
 
-    // Remove static arrow SVG if present
-    const staticArrow = wrapper.querySelector('.chip-arrow');
-    if (staticArrow) staticArrow.remove();
+    select.style.display = '';
+    select.classList.remove('hidden');
 
-    // Hide native select element
-    select.classList.add('hidden');
-    select.style.display = 'none';
-
-    // Create custom trigger button
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'chip-select-btn';
-    btn.id = `btn-${select.id}`;
-    btn.setAttribute('aria-expanded', 'false');
-    btn.setAttribute('aria-haspopup', 'listbox');
-
-    const labelSpan = document.createElement('span');
-    labelSpan.className = 'chip-select-label';
-    const initialText = select.options[select.selectedIndex] ? select.options[select.selectedIndex].text : '';
-    labelSpan.textContent = initialText;
-
-    const arrowSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    arrowSvg.setAttribute('class', 'chip-arrow w-4 h-4 text-zinc-500 pointer-events-none');
-    arrowSvg.setAttribute('fill', 'none');
-    arrowSvg.setAttribute('stroke', 'currentColor');
-    arrowSvg.setAttribute('viewBox', '0 0 24 24');
-    arrowSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>';
-
-    btn.appendChild(labelSpan);
-    btn.appendChild(arrowSvg);
-
-    // Create custom popover dropdown menu
-    const menu = document.createElement('div');
-    menu.className = 'custom-dropdown-menu';
-    menu.id = `menu-${select.id}`;
-    menu.setAttribute('role', 'listbox');
-
-    Array.from(select.options).forEach(opt => {
-      const itemBtn = document.createElement('button');
-      itemBtn.type = 'button';
-      itemBtn.className = `custom-dropdown-item ${opt.selected ? 'selected' : ''}`;
-      itemBtn.dataset.value = opt.value;
-
-      const itemText = document.createElement('span');
-      itemText.textContent = opt.text;
-
-      const checkSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      checkSvg.setAttribute('class', 'check-icon w-4 h-4 text-[#0084FF]');
-      checkSvg.setAttribute('fill', 'none');
-      checkSvg.setAttribute('stroke', 'currentColor');
-      checkSvg.setAttribute('viewBox', '0 0 24 24');
-      checkSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>';
-
-      itemBtn.appendChild(itemText);
-      itemBtn.appendChild(checkSvg);
-
-      itemBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        select.value = opt.value;
-        select.dispatchEvent(new Event('change', { bubbles: true }));
-        closeAllDropdowns();
-      });
-
-      menu.appendChild(itemBtn);
-    });
-
-    // Append button and menu to wrapper
-    wrapper.appendChild(btn);
-    wrapper.appendChild(menu);
-
-    // Click handler for trigger button
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = menu.classList.contains('open');
-      closeAllDropdowns();
-      if (!isOpen) {
-        menu.classList.add('open');
-        btn.classList.add('is-open');
-        btn.setAttribute('aria-expanded', 'true');
-
-        const btnRect = btn.getBoundingClientRect();
-        if (window.innerWidth <= 991) {
-          const menuWidth = Math.min(260, window.innerWidth - 32);
-          menu.classList.add('is-fixed');
-          menu.style.position = 'fixed';
-          menu.style.top = `${btnRect.bottom + 6}px`;
-          let leftPos = btnRect.left;
-          if (leftPos + menuWidth > window.innerWidth - 16) {
-            leftPos = Math.max(16, window.innerWidth - menuWidth - 16);
-          }
-          menu.style.left = `${leftPos}px`;
-          menu.style.width = `${menuWidth}px`;
-        } else {
-          menu.classList.remove('is-fixed');
-          menu.style.position = '';
-          menu.style.top = '';
-          menu.style.left = '';
-          menu.style.width = '';
-          if (btnRect.right > window.innerWidth - 16) {
-            menu.classList.add('align-right');
-          } else {
-            menu.classList.remove('align-right');
-          }
-        }
-      }
+    select.addEventListener('change', () => {
+      syncCustomSelects();
     });
   });
-
-  // Close when clicking outside
-  document.addEventListener('click', () => {
-    closeAllDropdowns();
-  });
-
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeAllDropdowns();
-    }
-  });
-
-  // Close on window resize or scroll
-  window.addEventListener('resize', closeAllDropdowns);
 }
 
 // Synchronize custom dropdown state with native select state
@@ -2021,26 +1906,11 @@ function syncCustomSelects() {
 
   selectWrappers.forEach(wrapper => {
     const select = wrapper.querySelector('select.chip-select');
-    const btn = wrapper.querySelector('.chip-select-btn');
-    const menu = wrapper.querySelector('.custom-dropdown-menu');
+    if (!select) return;
 
-    if (!select || !btn || !menu) return;
-
-    const selectedOption = select.options[select.selectedIndex];
-    if (selectedOption) {
-      const labelSpan = btn.querySelector('.chip-select-label');
-      if (labelSpan) labelSpan.textContent = selectedOption.text;
-    }
-
-    // Toggle active-filter class on button
+    // Toggle active-filter class on select element
     const isDefault = (select.value === 'all' || select.value === 'popular');
-    btn.classList.toggle('active-filter', !isDefault);
-
-    // Update selected class on menu options
-    menu.querySelectorAll('.custom-dropdown-item').forEach(item => {
-      const isSelected = item.dataset.value === select.value;
-      item.classList.toggle('selected', isSelected);
-    });
+    select.classList.toggle('active-filter', !isDefault);
   });
 }
 
