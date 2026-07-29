@@ -519,7 +519,7 @@ body {
    Exact Banki.ru Buttons Style (Matching User Screenshot 1:1)
    ========================================================================== */
 
-/* Primary Banki.ru Button ("Далее" / "Оформить карту") */
+/* Primary Banki.ru Button ("Перейти" / "Оформить карту") */
 .btn-banki-primary {
   font-family: 'Unbounded', 'Inter', sans-serif;
   background-color: var(--banki-blue);

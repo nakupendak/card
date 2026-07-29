@@ -1402,14 +1402,14 @@ function renderCardHTML(item, isChild = false, childCards = [], isExpanded = fal
             </div>
           </div>
 
-          <!-- Col 3: Action Buttons (Подробнее & Далее) -->
+          <!-- Col 3: Action Buttons (Подробнее & Перейти) -->
           <div class="flex flex-row items-center justify-end gap-2.5 shrink-0">
             <button type="button" id="${btnToggleId}" onclick="toggleCardDetails('${item.id}')" class="btn-banki-secondary">
               <span>Подробнее</span>
             </button>
 
             <a href="${item.ref_link || '#'}" target="_blank" rel="noopener noreferrer" class="btn-banki-primary" onclick="trackClick('${(item.name || '').replace(/'/g, "\\'")}', '${item.ref_link || ''}')">
-              Далее
+              Перейти
             </a>
           </div>
 
