@@ -2015,7 +2015,7 @@ function syncCustomSelects() {
   selectWrappers.forEach(wrapper => {
     const select = wrapper.querySelector('select.chip-select');
     const btn = wrapper.querySelector('.chip-select-btn');
-    const menu = wrapper.querySelector('.custom-dropdown-menu');
+    const menu = document.getElementById(`menu-${select.id}`);
 
     if (!select || !btn || !menu) return;
 
@@ -2098,6 +2098,7 @@ function resetAllFilters() {
 // Initialize App & Event Handlers
 function initApp() {
   setupCustomDropdowns();
+  updateFilterStyles();
 
   const categorySelect = document.getElementById('filter-category');
   const depositSelect = document.getElementById('filter-deposit');
