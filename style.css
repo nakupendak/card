@@ -174,13 +174,14 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Desktop layout: Keep all chips in 1 single horizontal row without visible scrollbar */
+/* Desktop layout: Keep all chips centered in 1 single horizontal row without visible scrollbar */
 @media (min-width: 768px) {
   .filter-chips-container {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
+    justify-content: center !important;
     gap: 0.5rem !important;
     overflow-x: auto !important;
     -ms-overflow-style: none !important;
