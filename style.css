@@ -12,7 +12,8 @@
   --banki-gray-text: #667085;
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
   max-width: 100vw;
   -webkit-tap-highlight-color: transparent;
@@ -147,7 +148,7 @@ body {
   z-index: 6;
 }
 
-.chip-select.active-filter ~ .chip-arrow {
+.chip-select.active-filter~.chip-arrow {
   color: #FFFFFF !important;
 }
 
@@ -173,16 +174,36 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Desktop layout: Keep all chips in 1 single horizontal row */
+@media (min-width: 768px) {
+  .filter-chips-container {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    overflow-x: auto !important;
+  }
+
+  .filter-chips-row {
+    display: contents !important;
+  }
+}
+
 @media (max-width: 991px) {
   .filter-chips-row {
     padding-bottom: 0.15rem;
     scroll-snap-type: x mandatory;
     scroll-padding-left: 0.25rem;
   }
-  .chip-select-wrapper, .chip-toggle {
+
+  .chip-select-wrapper,
+  .chip-toggle {
     scroll-snap-align: start;
   }
-  .chip-select, .chip-toggle {
+
+  .chip-select,
+  .chip-toggle {
     min-height: 40px;
     padding-top: 0.55rem;
     padding-bottom: 0.55rem;
@@ -888,7 +909,8 @@ body {
     border-radius: 1rem;
   }
 
-  .btn-banki-primary, .btn-banki-secondary {
+  .btn-banki-primary,
+  .btn-banki-secondary {
     flex: 1;
     width: 50%;
     text-align: center;
