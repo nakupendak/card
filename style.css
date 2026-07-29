@@ -151,13 +151,20 @@ body {
   color: #FFFFFF !important;
 }
 
+.filter-chips-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
 .filter-chips-row {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.2rem 0.1rem;
+  padding: 0.15rem 0.1rem;
   overflow-x: auto;
   overflow-y: hidden !important;
   touch-action: pan-x !important;
@@ -168,7 +175,7 @@ body {
 
 @media (max-width: 991px) {
   .filter-chips-row {
-    padding-bottom: 0.45rem;
+    padding-bottom: 0.25rem;
     scroll-snap-type: x mandatory;
     scroll-padding-left: 0.25rem;
   }

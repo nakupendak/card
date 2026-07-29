@@ -64,88 +64,98 @@
     <!-- Google Flights Style Interactive Filter Bar -->
     <div class="flex flex-col gap-3 mb-6">
 
-      <!-- Single-line Container for Filter Chips -->
+      <!-- Google Flights Style Interactive Filter Bar (2 rows) -->
       <div class="w-full py-1">
-        <div class="filter-chips-row flex flex-nowrap items-center gap-2 w-full no-scrollbar">
+        <div class="filter-chips-container flex flex-col gap-2.5 w-full">
 
-          <!-- Dropdown 1: Цель использования -->
-          <div class="chip-select-wrapper">
-            <select id="filter-category" class="chip-select">
-              <option value="all">Цель: Все цели</option>
-              <option value="subs">Подписки 🎬</option>
-              <option value="travel">За рубежом ✈️</option>
-            </select>
-            <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
-              stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
+          <!-- Filter Row 1: Select Dropdowns -->
+          <div class="filter-chips-row flex flex-nowrap items-center gap-2 w-full no-scrollbar">
+
+            <!-- Dropdown 1: Цель использования -->
+            <div class="chip-select-wrapper">
+              <select id="filter-category" class="chip-select">
+                <option value="all">Цель: Все цели</option>
+                <option value="subs">Подписки 🎬</option>
+                <option value="travel">За рубежом ✈️</option>
+              </select>
+              <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+
+            <!-- Dropdown 2: Способ Пополнения -->
+            <div class="chip-select-wrapper">
+              <select id="filter-deposit" class="chip-select">
+                <option value="all">Пополнение: Все способы</option>
+                <option value="rub">СБП / Карты РФ 💳</option>
+                <option value="crypto">USDT / Крипта 🪙</option>
+              </select>
+              <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+
+            <!-- Dropdown 3: Фильтр Цена -->
+            <div class="chip-select-wrapper">
+              <select id="filter-price" class="chip-select">
+                <option value="all">Цена: Все</option>
+                <option value="under1000">До 1 000 ₽</option>
+                <option value="under3000">До 3 000 ₽</option>
+                <option value="under5000">До 5 000 ₽</option>
+                <option value="from5000">От 5 000 ₽</option>
+              </select>
+              <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+
+            <!-- Dropdown 4: Сортировка -->
+            <div class="chip-select-wrapper">
+              <select id="filter-sort" class="chip-select">
+                <option value="popular">Сначала популярные</option>
+                <option value="price-asc">Сначала дешевле</option>
+                <option value="price-desc">Сначала дороже</option>
+              </select>
+              <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+
           </div>
 
-          <!-- Dropdown 2: Способ Пополнения -->
-          <div class="chip-select-wrapper">
-            <select id="filter-deposit" class="chip-select">
-              <option value="all">Пополнение: Все способы</option>
-              <option value="rub">СБП / Карты РФ 💳</option>
-              <option value="crypto">USDT / Крипта 🪙</option>
-            </select>
-            <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
-              stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
+          <!-- Filter Row 2: Quick Toggles & Reset -->
+          <div class="filter-chips-row flex flex-nowrap items-center gap-2 w-full no-scrollbar">
+
+            <!-- Quick Toggle Chip: Без паспорта -->
+            <button id="filter-nodocs" class="chip-toggle" type="button">
+              Без паспорта
+            </button>
+
+            <!-- Quick Toggle Chip: Apple Pay PNG -->
+            <button id="filter-applepay" class="chip-toggle" type="button" aria-label="Apple Pay">
+              <img src="applepay.png" alt="Apple Pay" class="applepay-chip-img">
+            </button>
+
+            <!-- Quick Toggle Chip: ТГ бот -->
+            <button id="filter-tgbot" class="chip-toggle" type="button">
+              <img src="tg.png" alt="Telegram" class="tg-chip-img">
+              <span>Все в ТГ</span>
+            </button>
+
+            <!-- Reset Filters Button -->
+            <button id="reset-filters-btn" type="button"
+              class="hidden items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-zinc-200 hover:bg-zinc-300 text-zinc-700 transition-all shrink-0">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              Сбросить
+            </button>
+
           </div>
-
-          <!-- Dropdown 3: Фильтр Цена -->
-          <div class="chip-select-wrapper">
-            <select id="filter-price" class="chip-select">
-              <option value="all">Цена: Все</option>
-              <option value="under1000">До 1 000 ₽</option>
-              <option value="under3000">До 3 000 ₽</option>
-              <option value="under5000">До 5 000 ₽</option>
-              <option value="from5000">От 5 000 ₽</option>
-            </select>
-            <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
-              stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </div>
-
-          <!-- Dropdown 4: Сортировка -->
-          <div class="chip-select-wrapper">
-            <select id="filter-sort" class="chip-select">
-              <option value="popular">Сначала популярные</option>
-              <option value="price-asc">Сначала дешевле</option>
-              <option value="price-desc">Сначала дороже</option>
-            </select>
-            <svg class="chip-arrow w-4 h-4 absolute right-3 pointer-events-none text-zinc-500" fill="none"
-              stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </div>
-
-          <!-- Quick Toggle Chip: Без паспорта -->
-          <button id="filter-nodocs" class="chip-toggle" type="button">
-            Без паспорта
-          </button>
-
-          <!-- Quick Toggle Chip: Apple Pay PNG -->
-          <button id="filter-applepay" class="chip-toggle" type="button" aria-label="Apple Pay">
-            <img src="applepay.png" alt="Apple Pay" class="applepay-chip-img">
-          </button>
-
-          <!-- Quick Toggle Chip: ТГ бот -->
-          <button id="filter-tgbot" class="chip-toggle" type="button">
-            <img src="tg.png" alt="Telegram" class="tg-chip-img">
-            <span>Все в ТГ</span>
-          </button>
-
-          <!-- Reset Filters Button -->
-          <button id="reset-filters-btn" type="button"
-            class="hidden items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-zinc-200 hover:bg-zinc-300 text-zinc-700 transition-all shrink-0">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-            Сбросить
-          </button>
 
         </div>
       </div>
