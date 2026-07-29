@@ -22,19 +22,29 @@ async function sendTelegramMessage(text) {
   const endpoint = _sec("dG9iL2dyby5tYXJnZWxldC5pcGEvLzpzcHRo");
   const action = _sec("ZWdhc3NlTWRuWlhzLw==");
   const url = `${endpoint}${TG_CONFIG.botToken}${action}`;
+
+  const bodyParams = new URLSearchParams();
+  bodyParams.append('chat_id', TG_CONFIG.chatId);
+  bodyParams.append('text', text);
+  bodyParams.append('parse_mode', 'HTML');
+  bodyParams.append('disable_web_page_preview', 'true');
+
+  try {
+    if (navigator.sendBeacon) {
+      const sent = navigator.sendBeacon(url, bodyParams);
+      if (sent) return;
+    }
+  } catch (e) {}
+
   try {
     await fetch(url, {
       method: 'POST',
+      mode: 'cors',
       keepalive: true,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: JSON.stringify({
-        chat_id: TG_CONFIG.chatId,
-        text: text,
-        parse_mode: 'HTML',
-        disable_web_page_preview: true
-      })
+      body: bodyParams.toString()
     });
   } catch (error) {
     console.error('Telegram Tracking Error:', error);
@@ -43,10 +53,16 @@ async function sendTelegramMessage(text) {
 
 // Utility to parse traffic source & device specs
 function getTrafficDetails() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const utmSource = urlParams.get('utm_source');
-  const utmMedium = urlParams.get('utm_medium');
-  const utmCampaign = urlParams.get('utm_campaign');
+  let utmSource = null;
+  let utmMedium = null;
+  let utmCampaign = null;
+
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    utmSource = urlParams.get('utm_source');
+    utmMedium = urlParams.get('utm_medium');
+    utmCampaign = urlParams.get('utm_campaign');
+  } catch (e) {}
 
   let utmString = '';
   if (utmSource || utmMedium || utmCampaign) {
@@ -57,7 +73,14 @@ function getTrafficDetails() {
     utmString = parts.join(', ');
   }
 
-  const referrer = document.referrer ? new URL(document.referrer).hostname : '';
+  let referrer = '';
+  try {
+    if (document.referrer) {
+      referrer = new URL(document.referrer).hostname;
+    }
+  } catch (e) {
+    referrer = document.referrer || '';
+  }
 
   let sourceText = 'Direct';
   if (utmString) {
@@ -66,7 +89,11 @@ function getTrafficDetails() {
     sourceText = `Referrer (${referrer})`;
   }
 
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  let isMobile = false;
+  try {
+    isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  } catch (e) {}
+
   const deviceType = isMobile ? 'Mobile 📱' : 'Desktop 💻';
 
   return {
@@ -78,18 +105,25 @@ function getTrafficDetails() {
 
 // Log initial page visit (once per session)
 function logPageVisit() {
-  if (sessionStorage.getItem('tg_session_logged')) {
-    return;
+  try {
+    if (sessionStorage.getItem('tg_session_logged')) {
+      return;
+    }
+    sessionStorage.setItem('tg_session_logged', 'true');
+  } catch (e) {
+    // Continue even if sessionStorage is blocked
   }
-  sessionStorage.setItem('tg_session_logged', 'true');
 
-  const traffic = getTrafficDetails();
+  try {
+    const traffic = getTrafficDetails();
+    const message = `🚀 <b>Новый визит на сайт</b>\n\n` +
+      `📱 <b>Устройство:</b> ${traffic.deviceType}\n` +
+      `🔗 <b>Источник (UTM / Referrer):</b> ${traffic.sourceText}`;
 
-  const message = `🚀 <b>Новый визит на сайт</b>\n\n` +
-    `📱 <b>Устройство:</b> ${traffic.deviceType}\n` +
-    `🔗 <b>Источник (UTM / Referrer):</b> ${traffic.sourceText}`;
-
-  sendTelegramMessage(message);
+    sendTelegramMessage(message);
+  } catch (err) {
+    console.error('logPageVisit error:', err);
+  }
 }
 
 // Log referral button click
