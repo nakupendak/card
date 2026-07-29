@@ -25,6 +25,7 @@ async function sendTelegramMessage(text) {
   try {
     await fetch(url, {
       method: 'POST',
+      keepalive: true,
       headers: {
         'Content-Type': 'application/json'
       },
