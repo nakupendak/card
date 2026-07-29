@@ -129,7 +129,7 @@ if (document.readyState === 'loading') {
 }
 
 // Global State & Endpoints
-const SHEET_ID = _sec('VUFvZmVMS3h6VVR1d1JTT1ZWV3MxYnRLaVJXOVBfdFRqNmp5LU5WeG03ZjE=');
+const SHEET_ID = _sec('VUFvZmVMS3h6VVR1d1JTT1dXczFidEtpUlc5UF90VGp5Nmp5LU5WeG03ZjE=');
 
 // Rich Mock Dataset for Banki.ru Table Cards
 const MOCK_SERVICES = [
@@ -1306,8 +1306,8 @@ function fetchSheetData() {
   const oldScript = document.getElementById('google-sheets-jsonp-script');
   if (oldScript) oldScript.remove();
 
-  const baseUrl = _sec('L2Qvc3RlZWhzZGFlcnBzL21vYy5lbGdvb2cuc2NvZC8vOnNwdGg=');
-  const params = _sec('ZXNub3BzZVJ0ZWVoU2xnb29nRWxwbmRhaDpyZWxkbmFIZXNub3BzZXI9eHF0P3F0L3ppdmcv');
+  const baseUrl = _sec('L2Qvc3RlZWhzZGFlcnBzL21vYy5lbGdvb2cuc2NvZC8vOnNwdHRo');
+  const params = _sec('ZXNub3BzZVJ0ZWVoU2VsZ29vR2VsZG5haDpyZWxkbmFIZXNub3BzZXI9eHF0P3F0L3ppdmcv');
   const jsonpUrl = `${baseUrl}${SHEET_ID}${params}`;
 
   const script = document.createElement('script');
@@ -1870,12 +1870,10 @@ function renderCards() {
 
 // Close all open custom dropdown menus
 function closeAllDropdowns() {
-  document.querySelectorAll('.custom-dropdown-menu.open').forEach(menu => {
-    menu.classList.remove('open', 'is-fixed', 'align-right');
-    menu.style.position = '';
-    menu.style.top = '';
-    menu.style.left = '';
-    menu.style.width = '';
+  document.querySelectorAll('.custom-dropdown-menu').forEach(menu => {
+    menu.classList.remove('open', 'align-right');
+    menu.style.top = '-9999px';
+    menu.style.left = '-9999px';
   });
   document.querySelectorAll('.chip-select-btn.is-open').forEach(btn => {
     btn.classList.remove('is-open');
@@ -1883,7 +1881,7 @@ function closeAllDropdowns() {
   });
 }
 
-// Transform native select elements into styled mobile-friendly select chips
+// Transform native select elements into custom site popover dropdowns
 function setupCustomDropdowns() {
   const selectWrappers = document.querySelectorAll('.chip-select-wrapper');
 
@@ -1891,13 +1889,123 @@ function setupCustomDropdowns() {
     const select = wrapper.querySelector('select.chip-select');
     if (!select) return;
 
-    select.style.display = '';
-    select.classList.remove('hidden');
+    if (wrapper.querySelector('.chip-select-btn')) return;
 
-    select.addEventListener('change', () => {
-      syncCustomSelects();
+    // Remove static arrow SVG if present
+    const staticArrow = wrapper.querySelector('.chip-arrow');
+    if (staticArrow) staticArrow.remove();
+
+    // Hide native select element
+    select.classList.add('hidden');
+    select.style.display = 'none';
+
+    // Create custom trigger button
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chip-select-btn';
+    btn.id = `btn-${select.id}`;
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-haspopup', 'listbox');
+
+    const labelSpan = document.createElement('span');
+    labelSpan.className = 'chip-select-label';
+    const selectedOpt = select.options[select.selectedIndex] || select.options[0];
+    labelSpan.textContent = selectedOpt ? selectedOpt.text : '';
+
+    const arrowSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    arrowSvg.setAttribute('class', 'chip-arrow w-4 h-4 text-zinc-500 pointer-events-none');
+    arrowSvg.setAttribute('fill', 'none');
+    arrowSvg.setAttribute('stroke', 'currentColor');
+    arrowSvg.setAttribute('viewBox', '0 0 24 24');
+    arrowSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>';
+
+    btn.appendChild(labelSpan);
+    btn.appendChild(arrowSvg);
+
+    // Create custom popover dropdown menu
+    const menu = document.createElement('div');
+    menu.className = 'custom-dropdown-menu is-fixed';
+    menu.id = `menu-${select.id}`;
+    menu.setAttribute('role', 'listbox');
+    menu.style.position = 'fixed';
+    menu.style.zIndex = '999999';
+
+    Array.from(select.options).forEach(opt => {
+      const itemBtn = document.createElement('button');
+      itemBtn.type = 'button';
+      itemBtn.className = `custom-dropdown-item ${opt.selected ? 'selected' : ''}`;
+      itemBtn.dataset.value = opt.value;
+
+      const itemText = document.createElement('span');
+      itemText.textContent = opt.text;
+
+      const checkSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      checkSvg.setAttribute('class', 'check-icon w-4 h-4 text-[#0084FF]');
+      checkSvg.setAttribute('fill', 'none');
+      checkSvg.setAttribute('stroke', 'currentColor');
+      checkSvg.setAttribute('viewBox', '0 0 24 24');
+      checkSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>';
+
+      itemBtn.appendChild(itemText);
+      itemBtn.appendChild(checkSvg);
+
+      itemBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        select.value = opt.value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        closeAllDropdowns();
+      });
+
+      menu.appendChild(itemBtn);
+    });
+
+    // Append button to wrapper, append menu directly to body to avoid overflow clipping
+    wrapper.appendChild(btn);
+    document.body.appendChild(menu);
+
+    // Click handler for trigger button
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menu.classList.contains('open');
+      closeAllDropdowns();
+      if (!isOpen) {
+        const btnRect = btn.getBoundingClientRect();
+        menu.style.top = `${btnRect.bottom + 6}px`;
+        menu.style.minWidth = `${Math.round(btnRect.width)}px`;
+        menu.style.width = 'max-content';
+        menu.style.maxWidth = `${Math.min(280, window.innerWidth - 32)}px`;
+
+        menu.classList.add('open');
+        btn.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+
+        const menuRect = menu.getBoundingClientRect();
+        let leftPos = btnRect.left;
+        if (leftPos + menuRect.width > window.innerWidth - 16) {
+          leftPos = Math.max(16, window.innerWidth - menuRect.width - 16);
+        }
+        menu.style.left = `${leftPos}px`;
+      }
     });
   });
+
+  // Global listeners to close dropdowns
+  document.removeEventListener('click', closeAllDropdowns);
+  document.addEventListener('click', closeAllDropdowns);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAllDropdowns();
+    }
+  });
+
+  // Close on window resize or scroll
+  window.removeEventListener('resize', closeAllDropdowns);
+  window.addEventListener('resize', closeAllDropdowns);
+
+  window.removeEventListener('scroll', closeAllDropdowns, true);
+  window.addEventListener('scroll', closeAllDropdowns, true);
 }
 
 // Synchronize custom dropdown state with native select state
@@ -1906,11 +2014,26 @@ function syncCustomSelects() {
 
   selectWrappers.forEach(wrapper => {
     const select = wrapper.querySelector('select.chip-select');
-    if (!select) return;
+    const btn = wrapper.querySelector('.chip-select-btn');
+    const menu = wrapper.querySelector('.custom-dropdown-menu');
 
-    // Toggle active-filter class on select element
+    if (!select || !btn || !menu) return;
+
+    const selectedOption = select.options[select.selectedIndex];
+    if (selectedOption) {
+      const labelSpan = btn.querySelector('.chip-select-label');
+      if (labelSpan) labelSpan.textContent = selectedOption.text;
+    }
+
+    // Toggle active-filter class on button
     const isDefault = (select.value === 'all' || select.value === 'popular');
-    select.classList.toggle('active-filter', !isDefault);
+    btn.classList.toggle('active-filter', !isDefault);
+
+    // Update selected class on menu options
+    menu.querySelectorAll('.custom-dropdown-item').forEach(item => {
+      const isSelected = item.dataset.value === select.value;
+      item.classList.toggle('selected', isSelected);
+    });
   });
 }
 
@@ -1972,8 +2095,8 @@ function resetAllFilters() {
   renderCards();
 }
 
-// Initialize Event Handlers
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize App & Event Handlers
+function initApp() {
   setupCustomDropdowns();
 
   const categorySelect = document.getElementById('filter-category');
@@ -2074,7 +2197,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   fetchSheetData();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
 // ==========================================================================
 // Calculator State & Logic

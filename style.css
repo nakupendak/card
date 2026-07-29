@@ -236,10 +236,11 @@ body {
 
 /* Custom Site Popover Dropdown */
 .custom-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  z-index: 1000;
+  position: fixed;
+  display: none;
+  top: -9999px;
+  left: -9999px;
+  z-index: 99999;
   min-width: 100%;
   width: max-content;
   max-width: 280px;
@@ -257,10 +258,11 @@ body {
 
 .custom-dropdown-menu.is-fixed {
   position: fixed !important;
-  z-index: 9999 !important;
+  z-index: 99999 !important;
 }
 
 .custom-dropdown-menu.open {
+  display: block !important;
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
