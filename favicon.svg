@@ -1,0 +1,13 @@
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="5" width="20" height="14" rx="4" fill="url(#cardflow-logo-grad)" />
+  <path d="M2 9.5H22" stroke="white" stroke-width="1.5" stroke-opacity="0.25" />
+  <rect x="5" y="13.5" width="4" height="2.5" rx="0.75" fill="white" fill-opacity="0.85" />
+  <circle cx="17.5" cy="14.75" r="1.25" fill="white" fill-opacity="0.6" />
+  <defs>
+    <linearGradient id="cardflow-logo-grad" x1="2" y1="5" x2="22" y2="19" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A" />
+      <stop offset="0.5" stop-color="#1E293B" />
+      <stop offset="1" stop-color="#2563EB" />
+    </linearGradient>
+  </defs>
+</svg>
