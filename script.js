@@ -8,7 +8,7 @@ function _sec(encodedStr) {
 }
 
 const TG_CONFIG = {
-  botToken: _sec("SWJZTGZ5RmRXRE9qWTNaWnFTU2hqeDVwbV96azNGQTBFQUE6NzM4MDE4NTMzOA=="),
+  botToken: _sec("SWJZeUxCNmZXNURPalkzWlpxU2hqeDVwbV96azNGQTBFQUE6NzczODAxODUzOA=="),
   chatId: _sec("NDEzNDc3ODAzNDAwMS0="),
   enabled: true
 };
@@ -1332,11 +1332,31 @@ function fetchSheetData() {
   document.head.appendChild(script);
 }
 
+// Helper to check if a card belongs to Плати по миру
+function isPlatiPoMiruCard(item) {
+  if (!item) return false;
+  const name = (item.name || '').toLowerCase();
+  const id = (item.id || '').toLowerCase();
+  const parentId = (item.parentId || '').toLowerCase();
+  return name.includes('плати по миру') || id.includes('platipomiru') || parentId.includes('platipomiru');
+}
+
+// Helper to check if a card belongs to Wayment
+function isWaymentCard(item) {
+  if (!item) return false;
+  const name = (item.name || '').toLowerCase();
+  const id = (item.id || '').toLowerCase();
+  const parentId = (item.parentId || '').toLowerCase();
+  return name.includes('wayment') || id === 'way' || id.startsWith('way') || parentId === 'way' || parentId.startsWith('way');
+}
+
 // Single Card HTML Template Renderer
 function renderCardHTML(item, isChild = false, childCards = [], isExpanded = false) {
   const drawerId = `drawer-${item.id}`;
   const btnToggleId = `btn-toggle-${item.id}`;
   const hasChildren = childCards && childCards.length > 0;
+  const isPlatiPoMiru = isPlatiPoMiruCard(item);
+  const isWayment = isWaymentCard(item);
 
   // Format feature tags
   const tagsHtml = (item.features && item.features.length > 0) ? item.features.map((feat, idx) => {
@@ -1380,10 +1400,24 @@ function renderCardHTML(item, isChild = false, childCards = [], isExpanded = fal
               </div>
             `}
             
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5">
               <h3 class="text-base sm:text-[17px] font-bold text-[#121629] tracking-tight leading-snug hover:text-[#0052FF] transition-colors">
                 ${item.name}
               </h3>
+              ${isPlatiPoMiru ? `
+                <div>
+                  <span class="plati-promo-badge">
+                    Подарочные 5$ на счет
+                  </span>
+                </div>
+              ` : ''}
+              ${isWayment ? `
+                <div>
+                  <span class="wayment-promo-badge">
+                    Подарочные 10$ на счет
+                  </span>
+                </div>
+              ` : ''}
             </div>
           </div>
 
