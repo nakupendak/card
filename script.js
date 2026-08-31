@@ -30,14 +30,7 @@ async function sendTelegramMessage(text) {
   bodyParams.append('disable_web_page_preview', 'true');
 
   try {
-    if (navigator.sendBeacon) {
-      const sent = navigator.sendBeacon(url, bodyParams);
-      if (sent) return;
-    }
-  } catch (e) {}
-
-  try {
-    await fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       mode: 'cors',
       keepalive: true,
@@ -46,8 +39,18 @@ async function sendTelegramMessage(text) {
       },
       body: bodyParams.toString()
     });
+    if (!response.ok) {
+      console.warn('Telegram API error:', response.status, await response.text());
+    }
   } catch (error) {
-    console.error('Telegram Tracking Error:', error);
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([bodyParams.toString()], { type: 'application/x-www-form-urlencoded' });
+        navigator.sendBeacon(url, blob);
+      }
+    } catch (e) {
+      console.error('Telegram Tracking Error:', error);
+    }
   }
 }
 
