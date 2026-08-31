@@ -777,7 +777,7 @@ const MOCK_SERVICES = [
     travel: "0",
     details: {
       card_type: "Mastercard Virtual",
-      issue_fee: "50 USD",
+      issue_fee: "4 200 ₽",
       issue_notes: [
         "выпуск карты через мини-приложение в Telegram (Antarctic Wallet);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
@@ -786,7 +786,6 @@ const MOCK_SERVICES = [
         "карта подходит для оплаты зарубежных сервисов и подписок (Netflix, Steam, ChatGPT и др.);",
         "комиссия за пополнение — 3.0%;",
         "комиссия за операцию (транзакцию) — 0,50 USD;",
-        "комиссия платежной сети — 0–3%;",
         "карта не поддерживает переводы или вывод на другие карты"
       ],
       maintenance_fee: "0 ₽",
@@ -796,10 +795,8 @@ const MOCK_SERVICES = [
       cash_withdrawal: "не предусмотрено",
       issue_variants: "Цифровая",
       holder_privileges: [
-        "минимальная сумма пополнения — 15 USD;",
-        "комиссия за пополнение — 3.0%;",
-        "комиссия за операцию — 0,50 USD;",
-        "комиссия платежной сети — 0–3%"
+        "пополняемый баланс — от 15 $ до 5 000 $ одним платежом;",
+        "максимальный лимит трат в месяц — 50 000 $"
       ]
     }
   },
@@ -833,7 +830,7 @@ const MOCK_SERVICES = [
     travel: "1",
     details: {
       card_type: "Mastercard Virtual",
-      issue_fee: "90 USD",
+      issue_fee: "7 380 ₽",
       issue_notes: [
         "выпуск карты через мини-приложение в Telegram (Antarctic Wallet);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
@@ -842,7 +839,6 @@ const MOCK_SERVICES = [
         "карта подходит для оплаты зарубежных сервисов, подписок и путешествий (Apple Pay & Google Pay);",
         "комиссия за пополнение — 3.0%;",
         "комиссия за операцию (транзакцию) — 0,50 USD;",
-        "комиссия платежной сети — 0–3%;",
         "карта не поддерживает переводы или вывод на другие карты"
       ],
       maintenance_fee: "0 ₽",
@@ -852,10 +848,8 @@ const MOCK_SERVICES = [
       cash_withdrawal: "не предусмотрено",
       issue_variants: "Цифровая",
       holder_privileges: [
-        "минимальная сумма пополнения — 15 USD;",
-        "комиссия за пополнение — 3.0%;",
-        "комиссия за операцию — 0,50 USD;",
-        "комиссия платежной сети — 0–3%"
+        "пополняемый баланс — от 15 $ до 20 000 $ одним платежом;",
+        "максимальный лимит трат в месяц — 200 000 $"
       ]
     }
   },
@@ -1705,7 +1699,7 @@ function renderCardHTML(item, isChild = false, childCards = [], isExpanded = fal
               <div class="md:col-span-8 lg:col-span-9 text-[#121629] space-y-2.5">
                 <div class="flex items-center gap-2.5 font-bold text-[#121629]">
                   <span class="text-black font-bold text-sm leading-none">•</span>
-                  <span>${(item.details && item.details.issue_fee) || item.issue_fee || '3 990 ₽'}</span>
+                  <span>${item.issue_fee || (item.details && item.details.issue_fee) || '3 990 ₽'}</span>
                 </div>
                 <ul class="pl-5 space-y-1.5 text-[#475467] text-xs sm:text-[13px] leading-relaxed">
                   ${(item.details && item.details.issue_notes && item.details.issue_notes.length > 0) ?
