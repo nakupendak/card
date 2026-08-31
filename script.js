@@ -919,7 +919,7 @@ const MOCK_SERVICES = [
     tag: "Карта для оплаты зарубежных сервисов и подписок",
     fee: "0 ₽",
     fee_sub: "",
-    issue_fee: "2 000 ₽",
+    issue_fee: "$19",
     deposit: "СБП, USDT",
     deposit_sub: "Автоматически",
     currency: "USD",
@@ -935,7 +935,7 @@ const MOCK_SERVICES = [
     travel: "0",
     details: {
       card_type: "Mastercard Virtual",
-      issue_fee: "2 000 ₽",
+      issue_fee: "$19",
       issue_notes: [
         "выпуск карты через мини-приложение в Telegram (Zarub Bot);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
@@ -972,7 +972,7 @@ const MOCK_SERVICES = [
     tag: "Карта для зарубежных сервисов и путешествий",
     fee: "0 ₽",
     fee_sub: "",
-    issue_fee: "14 000 ₽",
+    issue_fee: "$149",
     deposit: "СБП, USDT",
     deposit_sub: "Автоматически",
     currency: "USD",
@@ -988,7 +988,7 @@ const MOCK_SERVICES = [
     travel: "1",
     details: {
       card_type: "Mastercard Virtual",
-      issue_fee: "14 000 ₽",
+      issue_fee: "$149",
       issue_notes: [
         "выпуск карты через мини-приложение в Telegram (Zarub Bot);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
