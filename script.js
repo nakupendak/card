@@ -855,6 +855,109 @@ const MOCK_SERVICES = [
         "комиссия платежной сети — 0–3%"
       ]
     }
+  },
+  {
+    id: "zar",
+    name: "Зарубеж Карта",
+    subtitle: "",
+    bank: "Telegram Bot",
+    card_style: "blue",
+    category: "bot",
+    emoji: "🌐",
+    badge: "Без паспорта ⚡",
+    badge_color: "yellow",
+    tag: "Карта для оплаты зарубежных сервисов и подписок",
+    fee: "0 ₽",
+    fee_sub: "",
+    issue_fee: "1 990 ₽",
+    deposit: "СБП, USDT",
+    deposit_sub: "Автоматически",
+    currency: "USD",
+    system: "Mastercard Virtual",
+    rating: "4.8",
+    reviews_count: 30,
+    image: "19zarub.jpeg",
+    features: ["⚡ Поддержка 24/7", "Оплата подписок", "Netflix, Steam, ChatGPT и др."],
+    ref_link: "https://t.me/zarub_bot",
+    apple: "no",
+    nodocs: "yes",
+    sub: "1",
+    travel: "0",
+    details: {
+      card_type: "Mastercard Virtual",
+      issue_fee: "1 990 ₽",
+      issue_notes: [
+        "выпуск карты через мини-приложение в Telegram;",
+        "срок действия карты составляет 12 месяцев с момента её выпуска;",
+        "минимальный депозит — 10 $;",
+        "карта поддерживает 3D Secure;",
+        "подходит для оплаты зарубежных сервисов и подписок;",
+        "комиссия за транзакцию — 0.50 $;",
+        "карта не поддерживает переводы на другие карты"
+      ],
+      maintenance_fee: "0 ₽",
+      maintenance_notes: [
+        "обслуживание бесплатно — 0 ₽;"
+      ],
+      cash_withdrawal: "не предусмотрено",
+      issue_variants: "Цифровая",
+      holder_privileges: [
+        "пополняемый баланс — от 10 $ до 5 000 $ одним платежом;",
+        "максимальный лимит трат в месяц — 50 000 $"
+      ]
+    }
+  },
+  {
+    id: "zar2",
+    parentId: "zar",
+    name: "Зарубеж Карта",
+    subtitle: "",
+    bank: "Telegram Bot",
+    card_style: "blue",
+    category: "bot",
+    emoji: "🌐",
+    badge: "Для путешествий ✈️",
+    badge_color: "blue",
+    tag: "Карта для зарубежных сервисов и путешествий",
+    fee: "0 ₽",
+    fee_sub: "",
+    issue_fee: "14 900 ₽",
+    deposit: "СБП, USDT",
+    deposit_sub: "Автоматически",
+    currency: "USD",
+    system: "Mastercard Virtual",
+    rating: "4.8",
+    reviews_count: 25,
+    image: "149zarub.jpeg",
+    features: ["⚡ Поддержка 24/7", "Apple Pay & Google Pay", "Оплата по всему миру"],
+    ref_link: "https://t.me/zarub_bot",
+    apple: "yes",
+    nodocs: "yes",
+    sub: "1",
+    travel: "1",
+    details: {
+      card_type: "Mastercard Virtual",
+      issue_fee: "14 900 ₽",
+      issue_notes: [
+        "выпуск карты через мини-приложение в Telegram;",
+        "срок действия карты составляет 12 месяцев с момента её выпуска;",
+        "минимальный депозит — 10 $;",
+        "карта поддерживает 3D Secure;",
+        "подходит для оплаты зарубежных сервисов, подписок и путешествий (Apple Pay & Google Pay);",
+        "комиссия за транзакцию — 0.50 $;",
+        "карта не поддерживает переводы на другие карты"
+      ],
+      maintenance_fee: "0 ₽",
+      maintenance_notes: [
+        "обслуживание бесплатно — 0 ₽;"
+      ],
+      cash_withdrawal: "не предусмотрено",
+      issue_variants: "Цифровая",
+      holder_privileges: [
+        "пополняемый баланс — от 10 $ до 5 000 $ одним платежом;",
+        "максимальный лимит трат в месяц — 50 000 $"
+      ]
+    }
   }
 ];
 
@@ -1234,7 +1337,7 @@ window.handleGoogleSheetResponse = function (parsedData) {
           emoji: itemObj.emoji,
           badge: itemObj.badge,
           badge_color: itemObj.badge_color,
-          tag: itemObj.tag,
+          tag: itemObj.tag || itemObj.tags || itemObj['тег'] || itemObj['теги'] || itemObj['ключевые слова'] || itemObj.keywords || itemObj.search_tags || itemObj.search_tag || itemObj['поиск'],
           fee: itemObj.fee || itemObj['обслуживание'] || itemObj['обслуживание_комиссия'],
           fee_sub: itemObj.fee_sub || itemObj['обслуживание_sub'],
           issue_fee: itemObj.issue_fee || itemObj['выпуск'] || itemObj['выпуск_карты'] || itemObj['выпуск карты'],
@@ -1274,21 +1377,30 @@ window.handleGoogleSheetResponse = function (parsedData) {
           fixed_tx_fee: itemObj.fixed_tx_fee || itemObj['комиссия_транзакции'] || itemObj['комиссия транзакции'],
           features: itemObj.features ? itemObj.features.split(';') : undefined,
           ref_link: itemObj.ref_link,
-          image: itemObj.image || (
-            itemObj.id === 'platipomiru2' ? '2990mir.avif' :
-              itemObj.id === 'platipomiru3' ? '14990mir.avif' :
-                itemObj.id === 'platipomiru' || (itemObj.name && itemObj.name.toLowerCase().includes('плати по миру')) ? 'mir.webp' :
-                  itemObj.id === 'want2' ? 'wantblue.png' :
-                    itemObj.id === 'want' ? 'wantorange.png' :
-                      itemObj.id === 'altyn' || (itemObj.name && itemObj.name.toLowerCase().includes('алтын')) ? 'altyn.png' :
-                        itemObj.id === 'flow2' || (itemObj.name && itemObj.name.toLowerCase().includes('flowbit') && ((itemObj.issue_fee && itemObj.issue_fee.includes('1590')) || itemObj.id === 'flow2')) ? 'fb19.png' :
-                          itemObj.id === 'flow' || (itemObj.name && itemObj.name.toLowerCase().includes('flowbit')) ? 'fb9.png' :
-                            itemObj.id === 'way' ? 'way.jpg' :
-                              itemObj.id === 'way2' ? 'way2.jpg' :
-                                itemObj.id === 'way3' ? 'way3.jpg' :
-                                  itemObj.id === 'ant2' ? 'ant2.png' :
-                                    (itemObj.id === 'ant' || (itemObj.name && itemObj.name.toLowerCase().includes('antarctic'))) ? 'ant.png' : undefined
-          )
+          image: (function () {
+            const rawImg = (itemObj.image || '').trim();
+            if (rawImg) {
+              if (['19zarub', '19zar', 'zar', '19zarub.jpeg', '19zarub.jpg'].includes(rawImg)) return '19zarub.jpeg';
+              if (['149zarub', '149zar', 'zar2', '149zarub.jpeg', '149zarub.jpg'].includes(rawImg)) return '149zarub.jpeg';
+              return rawImg;
+            }
+            if (itemObj.id === 'zar2' || itemObj.id === 'zarub2' || itemObj.id === '149zarub') return '149zarub.jpeg';
+            if (itemObj.id === 'zar' || itemObj.id === 'zar1' || itemObj.id === 'zarub' || itemObj.id === '19zarub') return '19zarub.jpeg';
+            if (itemObj.id === 'platipomiru2') return '2990mir.avif';
+            if (itemObj.id === 'platipomiru3') return '14990mir.avif';
+            if (itemObj.id === 'platipomiru' || (itemObj.name && itemObj.name.toLowerCase().includes('плати по миру'))) return 'mir.webp';
+            if (itemObj.id === 'want2') return 'wantblue.png';
+            if (itemObj.id === 'want') return 'wantorange.png';
+            if (itemObj.id === 'altyn' || (itemObj.name && itemObj.name.toLowerCase().includes('алтын'))) return 'altyn.png';
+            if (itemObj.id === 'flow2' || (itemObj.name && itemObj.name.toLowerCase().includes('flowbit') && ((itemObj.issue_fee && itemObj.issue_fee.includes('1590')) || itemObj.id === 'flow2'))) return 'fb19.png';
+            if (itemObj.id === 'flow' || (itemObj.name && itemObj.name.toLowerCase().includes('flowbit'))) return 'fb9.png';
+            if (itemObj.id === 'way') return 'way.jpg';
+            if (itemObj.id === 'way2') return 'way2.jpg';
+            if (itemObj.id === 'way3') return 'way3.jpg';
+            if (itemObj.id === 'ant2') return 'ant2.png';
+            if (itemObj.id === 'ant' || (itemObj.name && itemObj.name.toLowerCase().includes('antarctic'))) return 'ant.png';
+            return undefined;
+          })()
         };
 
         parsedItems.push(item);
@@ -1833,23 +1945,43 @@ function renderCards() {
       if (!isTgBot) return false;
     }
 
-    // 6. Flexible Search (normalizes spaces e.g. "2990" matches "2 990 ₽")
+    // 6. Flexible Search (normalizes spaces e.g. "2990" matches "2 990 ₽" and matches keywords/tags)
     const qRaw = filterState.search.toLowerCase().trim();
     if (qRaw) {
-      const qClean = qRaw.replace(/\s+/g, '');
-      const searchTarget = [
+      const rawFields = [
         item.name,
         item.subtitle,
         item.bank,
         item.tag,
+        item.tags,
         item.badge,
         item.deposit,
         item.fee,
         item.issue_fee,
+        item.currency,
+        item.system,
         ...(item.features || [])
-      ].map(v => (v || '').toLowerCase().replace(/\s+/g, '')).join(' ');
+      ].filter(Boolean).map(v => String(v).toLowerCase());
 
-      if (!searchTarget.includes(qClean)) return false;
+      const searchTargetClean = rawFields.map(v => v.replace(/\s+/g, '')).join(' ');
+      const searchTargetRaw = rawFields.join(' ');
+      const qClean = qRaw.replace(/\s+/g, '');
+
+      // Direct match with spaces stripped (e.g. "2990" matches "2 990 ₽")
+      let matches = searchTargetClean.includes(qClean) || searchTargetRaw.includes(qRaw);
+
+      // Multi-term match (e.g. searching "spotify виза" matches card with tag "spotify" and system "visa")
+      if (!matches) {
+        const terms = qRaw.split(/\s+/).filter(Boolean);
+        if (terms.length > 1) {
+          matches = terms.every(term => {
+            const termClean = term.replace(/\s+/g, '');
+            return searchTargetRaw.includes(term) || searchTargetClean.includes(termClean);
+          });
+        }
+      }
+
+      if (!matches) return false;
     }
 
     return true;
