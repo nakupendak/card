@@ -65,7 +65,7 @@ function getTrafficDetails() {
     utmSource = urlParams.get('utm_source');
     utmMedium = urlParams.get('utm_medium');
     utmCampaign = urlParams.get('utm_campaign');
-  } catch (e) {}
+  } catch (e) { }
 
   let utmString = '';
   if (utmSource || utmMedium || utmCampaign) {
@@ -95,7 +95,7 @@ function getTrafficDetails() {
   let isMobile = false;
   try {
     isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  } catch (e) {}
+  } catch (e) { }
 
   const deviceType = isMobile ? 'Mobile 📱' : 'Desktop 💻';
 
@@ -781,7 +781,7 @@ const MOCK_SERVICES = [
       issue_notes: [
         "выпуск карты через мини-приложение в Telegram (Antarctic Wallet);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
-        "минимальный депозит — 5 USD;",
+        "минимальный депозит — 0 USD;",
         "карта поддерживает 3D Secure;",
         "карта подходит для оплаты зарубежных сервисов и подписок (Netflix, Steam, ChatGPT и др.);",
         "комиссия за пополнение — 3.0%;",
@@ -834,7 +834,7 @@ const MOCK_SERVICES = [
       issue_notes: [
         "выпуск карты через мини-приложение в Telegram (Antarctic Wallet);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
-        "минимальный депозит — 10 USD;",
+        "минимальный депозит — 15 USD;",
         "карта поддерживает 3D Secure;",
         "карта подходит для оплаты зарубежных сервисов и подписок;",
         "комиссия за пополнение — 3.0%;",
