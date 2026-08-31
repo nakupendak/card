@@ -876,7 +876,7 @@ const MOCK_SERVICES = [
     system: "Mastercard Virtual",
     rating: "4.8",
     reviews_count: 30,
-    image: "19zarub.jpeg",
+    image: "19zarub.png",
     features: ["⚡ Поддержка 24/7", "Оплата подписок", "Netflix, Steam, ChatGPT и др."],
     ref_link: "https://t.me/zarub_robot?start=ref_D8G7lI",
     apple: "yes",
@@ -929,7 +929,7 @@ const MOCK_SERVICES = [
     system: "Mastercard Virtual",
     rating: "4.8",
     reviews_count: 25,
-    image: "149zarub.jpeg",
+    image: "149zarub.png",
     features: ["⚡ Поддержка 24/7", "Apple Pay & Google Pay", "Оплата по всему миру"],
     ref_link: "https://t.me/zarub_robot?start=ref_D8G7lI",
     apple: "yes",
@@ -1386,12 +1386,12 @@ window.handleGoogleSheetResponse = function (parsedData) {
             const issueFeeStr = String(itemObj.issue_fee || itemObj['выпуск'] || '').toLowerCase();
 
             if (rawImg) {
-              if (rawImg.includes('19zar') || rawImg === 'zar' || rawImg === 'zar1' || rawImg === 'zarub') return '19zarub.jpeg';
-              if (rawImg.includes('149zar') || rawImg === 'zar2' || rawImg === 'zarub2') return '149zarub.jpeg';
+              if (rawImg.includes('19zar') || rawImg === 'zar' || rawImg === 'zar1' || rawImg === 'zarub') return '19zarub.png';
+              if (rawImg.includes('149zar') || rawImg === 'zar2' || rawImg === 'zarub2') return '149zarub.png';
               return itemObj.image.trim();
             }
 
-            // zar2 -> 149zarub.jpeg
+            // zar2 -> 149zarub.png
             if (
               cleanId === 'zar2' ||
               cleanId === 'zarub2' ||
@@ -1409,10 +1409,10 @@ window.handleGoogleSheetResponse = function (parsedData) {
                 issueFeeStr.includes('14 900')
               ))
             ) {
-              return '149zarub.jpeg';
+              return '149zarub.png';
             }
 
-            // zar -> 19zarub.jpeg
+            // zar -> 19zarub.png
             if (
               cleanId === 'zar' ||
               cleanId === 'zar1' ||
@@ -1423,7 +1423,7 @@ window.handleGoogleSheetResponse = function (parsedData) {
               cleanName.includes('zarub') ||
               cleanName.includes('зарубеж')
             ) {
-              return '19zarub.jpeg';
+              return '19zarub.png';
             }
 
             if (cleanId === 'platipomiru2') return '2990mir.avif';
