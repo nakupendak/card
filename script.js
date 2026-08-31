@@ -1440,8 +1440,9 @@ window.handleGoogleSheetResponse = function (parsedData) {
             if (cleanId === 'way') return 'way.jpg';
             if (cleanId === 'way2') return 'way2.jpg';
             if (cleanId === 'way3') return 'way3.jpg';
-            if (cleanId === 'ant2') return 'ant2.png';
-            if (cleanId === 'ant' || cleanName.includes('antarctic')) return 'ant.png';
+            if (cleanId === 'ant2' || cleanId === 'ant29' || cleanId === 'ant3') return 'ant2.png';
+            if (cleanId === 'ant1' || cleanId === 'ant19') return 'ant1.png';
+            if (cleanId === 'ant' || cleanId === 'ant9' || cleanName.includes('antarctic')) return 'ant.png';
 
             return undefined;
           })()
