@@ -858,7 +858,7 @@ const MOCK_SERVICES = [
   },
   {
     id: "zar",
-    name: "Зарубеж Карта",
+    name: "Zarub",
     subtitle: "",
     bank: "Telegram Bot",
     card_style: "blue",
@@ -869,7 +869,7 @@ const MOCK_SERVICES = [
     tag: "Карта для оплаты зарубежных сервисов и подписок",
     fee: "0 ₽",
     fee_sub: "",
-    issue_fee: "1 990 ₽",
+    issue_fee: "2 000 ₽",
     deposit: "СБП, USDT",
     deposit_sub: "Автоматически",
     currency: "USD",
@@ -878,22 +878,23 @@ const MOCK_SERVICES = [
     reviews_count: 30,
     image: "19zarub.jpeg",
     features: ["⚡ Поддержка 24/7", "Оплата подписок", "Netflix, Steam, ChatGPT и др."],
-    ref_link: "https://t.me/zarub_bot",
-    apple: "no",
+    ref_link: "https://t.me/zarub_robot?start=ref_D8G7lI",
+    apple: "yes",
     nodocs: "yes",
     sub: "1",
     travel: "0",
     details: {
       card_type: "Mastercard Virtual",
-      issue_fee: "1 990 ₽",
+      issue_fee: "2 000 ₽",
       issue_notes: [
-        "выпуск карты через мини-приложение в Telegram;",
+        "выпуск карты через мини-приложение в Telegram (Zarub Bot);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
         "минимальный депозит — 10 $;",
         "карта поддерживает 3D Secure;",
-        "подходит для оплаты зарубежных сервисов и подписок;",
-        "комиссия за транзакцию — 0.50 $;",
-        "карта не поддерживает переводы на другие карты"
+        "подходит для оплаты зарубежных сервисов и подписок (Netflix, Steam, ChatGPT и др.);",
+        "комиссия за пополнение — 1,5%;",
+        "комиссия за операцию (транзакцию) — 0,35 $;",
+        "карта не поддерживает переводы или вывод на другие карты"
       ],
       maintenance_fee: "0 ₽",
       maintenance_notes: [
@@ -910,7 +911,7 @@ const MOCK_SERVICES = [
   {
     id: "zar2",
     parentId: "zar",
-    name: "Зарубеж Карта",
+    name: "Zarub",
     subtitle: "",
     bank: "Telegram Bot",
     card_style: "blue",
@@ -921,7 +922,7 @@ const MOCK_SERVICES = [
     tag: "Карта для зарубежных сервисов и путешествий",
     fee: "0 ₽",
     fee_sub: "",
-    issue_fee: "14 900 ₽",
+    issue_fee: "14 000 ₽",
     deposit: "СБП, USDT",
     deposit_sub: "Автоматически",
     currency: "USD",
@@ -930,22 +931,23 @@ const MOCK_SERVICES = [
     reviews_count: 25,
     image: "149zarub.jpeg",
     features: ["⚡ Поддержка 24/7", "Apple Pay & Google Pay", "Оплата по всему миру"],
-    ref_link: "https://t.me/zarub_bot",
+    ref_link: "https://t.me/zarub_robot?start=ref_D8G7lI",
     apple: "yes",
     nodocs: "yes",
     sub: "1",
     travel: "1",
     details: {
       card_type: "Mastercard Virtual",
-      issue_fee: "14 900 ₽",
+      issue_fee: "14 000 ₽",
       issue_notes: [
-        "выпуск карты через мини-приложение в Telegram;",
+        "выпуск карты через мини-приложение в Telegram (Zarub Bot);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
         "минимальный депозит — 10 $;",
         "карта поддерживает 3D Secure;",
         "подходит для оплаты зарубежных сервисов, подписок и путешествий (Apple Pay & Google Pay);",
-        "комиссия за транзакцию — 0.50 $;",
-        "карта не поддерживает переводы на другие карты"
+        "комиссия за пополнение — 1,5%;",
+        "комиссия за операцию (транзакцию) — 0,35 $;",
+        "карта не поддерживает переводы или вывод на другие карты"
       ],
       maintenance_fee: "0 ₽",
       maintenance_notes: [
@@ -1167,10 +1169,10 @@ function mergeWithMockData(sheetItems) {
     sheetItems.forEach(item => {
       if (!item || (!item.id && !item.name)) return;
 
-      // Match by exact ID first, or by name if no ID is present
+      // Match by exact ID first (case-insensitive), or by name if no ID is present
       const mockMatch = mockTemplates.find(m =>
-        (item.id && m.id === item.id) ||
-        (!item.id && item.name && m.name.toLowerCase() === item.name.toLowerCase())
+        (item.id && m.id && m.id.toLowerCase() === item.id.toLowerCase()) ||
+        (!item.id && item.name && m.name && m.name.toLowerCase() === item.name.toLowerCase())
       );
 
       if (mockMatch) {
@@ -1378,27 +1380,66 @@ window.handleGoogleSheetResponse = function (parsedData) {
           features: itemObj.features ? itemObj.features.split(';') : undefined,
           ref_link: itemObj.ref_link,
           image: (function () {
-            const rawImg = (itemObj.image || '').trim();
+            const rawImg = (itemObj.image || '').trim().toLowerCase();
+            const cleanId = (itemObj.id || '').trim().toLowerCase();
+            const cleanName = (itemObj.name || '').trim().toLowerCase();
+            const issueFeeStr = String(itemObj.issue_fee || itemObj['выпуск'] || '').toLowerCase();
+
             if (rawImg) {
-              if (['19zarub', '19zar', 'zar', '19zarub.jpeg', '19zarub.jpg'].includes(rawImg)) return '19zarub.jpeg';
-              if (['149zarub', '149zar', 'zar2', '149zarub.jpeg', '149zarub.jpg'].includes(rawImg)) return '149zarub.jpeg';
-              return rawImg;
+              if (rawImg.includes('19zar') || rawImg === 'zar' || rawImg === 'zar1' || rawImg === 'zarub') return '19zarub.jpeg';
+              if (rawImg.includes('149zar') || rawImg === 'zar2' || rawImg === 'zarub2') return '149zarub.jpeg';
+              return itemObj.image.trim();
             }
-            if (itemObj.id === 'zar2' || itemObj.id === 'zarub2' || itemObj.id === '149zarub') return '149zarub.jpeg';
-            if (itemObj.id === 'zar' || itemObj.id === 'zar1' || itemObj.id === 'zarub' || itemObj.id === '19zarub') return '19zarub.jpeg';
-            if (itemObj.id === 'platipomiru2') return '2990mir.avif';
-            if (itemObj.id === 'platipomiru3') return '14990mir.avif';
-            if (itemObj.id === 'platipomiru' || (itemObj.name && itemObj.name.toLowerCase().includes('плати по миру'))) return 'mir.webp';
-            if (itemObj.id === 'want2') return 'wantblue.png';
-            if (itemObj.id === 'want') return 'wantorange.png';
-            if (itemObj.id === 'altyn' || (itemObj.name && itemObj.name.toLowerCase().includes('алтын'))) return 'altyn.png';
-            if (itemObj.id === 'flow2' || (itemObj.name && itemObj.name.toLowerCase().includes('flowbit') && ((itemObj.issue_fee && itemObj.issue_fee.includes('1590')) || itemObj.id === 'flow2'))) return 'fb19.png';
-            if (itemObj.id === 'flow' || (itemObj.name && itemObj.name.toLowerCase().includes('flowbit'))) return 'fb9.png';
-            if (itemObj.id === 'way') return 'way.jpg';
-            if (itemObj.id === 'way2') return 'way2.jpg';
-            if (itemObj.id === 'way3') return 'way3.jpg';
-            if (itemObj.id === 'ant2') return 'ant2.png';
-            if (itemObj.id === 'ant' || (itemObj.name && itemObj.name.toLowerCase().includes('antarctic'))) return 'ant.png';
+
+            // zar2 -> 149zarub.jpeg
+            if (
+              cleanId === 'zar2' ||
+              cleanId === 'zarub2' ||
+              cleanId === 'zar_2' ||
+              cleanId === 'zar-2' ||
+              cleanId === '149zarub' ||
+              cleanId === '149zar' ||
+              ((cleanId.includes('zar') || cleanName.includes('zarub') || cleanName.includes('зарубеж')) && (
+                cleanId.includes('2') ||
+                cleanName.includes('2') ||
+                issueFeeStr.includes('14') ||
+                issueFeeStr.includes('14000') ||
+                issueFeeStr.includes('14 000') ||
+                issueFeeStr.includes('14900') ||
+                issueFeeStr.includes('14 900')
+              ))
+            ) {
+              return '149zarub.jpeg';
+            }
+
+            // zar -> 19zarub.jpeg
+            if (
+              cleanId === 'zar' ||
+              cleanId === 'zar1' ||
+              cleanId === 'zarub' ||
+              cleanId === '19zarub' ||
+              cleanId === '19zar' ||
+              cleanId.startsWith('zar') ||
+              cleanName.includes('zarub') ||
+              cleanName.includes('зарубеж')
+            ) {
+              return '19zarub.jpeg';
+            }
+
+            if (cleanId === 'platipomiru2') return '2990mir.avif';
+            if (cleanId === 'platipomiru3') return '14990mir.avif';
+            if (cleanId === 'platipomiru' || cleanName.includes('плати по миру')) return 'mir.webp';
+            if (cleanId === 'want2') return 'wantblue.png';
+            if (cleanId === 'want') return 'wantorange.png';
+            if (cleanId === 'altyn' || cleanName.includes('алтын')) return 'altyn.png';
+            if (cleanId === 'flow2' || (cleanName.includes('flowbit') && (issueFeeStr.includes('1590') || cleanId === 'flow2'))) return 'fb19.png';
+            if (cleanId === 'flow' || cleanName.includes('flowbit')) return 'fb9.png';
+            if (cleanId === 'way') return 'way.jpg';
+            if (cleanId === 'way2') return 'way2.jpg';
+            if (cleanId === 'way3') return 'way3.jpg';
+            if (cleanId === 'ant2') return 'ant2.png';
+            if (cleanId === 'ant' || cleanName.includes('antarctic')) return 'ant.png';
+
             return undefined;
           })()
         };
