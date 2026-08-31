@@ -761,7 +761,7 @@ const MOCK_SERVICES = [
     tag: "Карта для оплаты зарубежных сервисов и подписок",
     fee: "0 ₽",
     fee_sub: "",
-    issue_fee: "4 200 ₽",
+    issue_fee: "$9.99",
     deposit: "СБП, USDT",
     deposit_sub: "Автоматически",
     currency: "USD",
@@ -777,11 +777,11 @@ const MOCK_SERVICES = [
     travel: "0",
     details: {
       card_type: "Mastercard Virtual",
-      issue_fee: "4 200 ₽",
+      issue_fee: "$9.99",
       issue_notes: [
         "выпуск карты через мини-приложение в Telegram (Antarctic Wallet);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
-        "минимальный депозит — 15 USD;",
+        "минимальный депозит — 5 USD;",
         "карта поддерживает 3D Secure;",
         "карта подходит для оплаты зарубежных сервисов и подписок (Netflix, Steam, ChatGPT и др.);",
         "комиссия за пополнение — 3.0%;",
@@ -795,8 +795,61 @@ const MOCK_SERVICES = [
       cash_withdrawal: "не предусмотрено",
       issue_variants: "Цифровая",
       holder_privileges: [
-        "пополняемый баланс — от 15 $ до 5 000 $ одним платежом;",
+        "пополняемый баланс — от 5 $ до 5 000 $ одним платежом;",
         "максимальный лимит трат в месяц — 50 000 $"
+      ]
+    }
+  },
+  {
+    id: "ant1",
+    parentId: "ant",
+    name: "Antarctic Wallet",
+    subtitle: "",
+    bank: "Telegram Bot",
+    card_style: "blue",
+    category: "bot",
+    emoji: "🐧",
+    badge: "Оплата подписок ⚡",
+    badge_color: "yellow",
+    tag: "Карта для зарубежных сервисов и подписок",
+    fee: "0 ₽",
+    fee_sub: "",
+    issue_fee: "$19",
+    deposit: "СБП, USDT",
+    deposit_sub: "Автоматически",
+    currency: "USD",
+    system: "Mastercard Virtual",
+    rating: "4.8",
+    reviews_count: 30,
+    image: "ant1.png",
+    features: ["⚡ Поддержка 24/7", "Google Pay & Виртуальная", "Оплата подписок"],
+    ref_link: "https://t.me/antarctic_wallet_bot/app?startapp=ref_dbca8d461a",
+    apple: "no",
+    nodocs: "yes",
+    sub: "1",
+    travel: "0",
+    details: {
+      card_type: "Mastercard Virtual",
+      issue_fee: "$19",
+      issue_notes: [
+        "выпуск карты через мини-приложение в Telegram (Antarctic Wallet);",
+        "срок действия карты составляет 12 месяцев с момента её выпуска;",
+        "минимальный депозит — 10 USD;",
+        "карта поддерживает 3D Secure;",
+        "карта подходит для оплаты зарубежных сервисов и подписок;",
+        "комиссия за пополнение — 3.0%;",
+        "комиссия за операцию (транзакцию) — 0,50 USD;",
+        "карта не поддерживает переводы или вывод на другие карты"
+      ],
+      maintenance_fee: "0 ₽",
+      maintenance_notes: [
+        "обслуживание бесплатно — 0 ₽;"
+      ],
+      cash_withdrawal: "не предусмотрено",
+      issue_variants: "Цифровая",
+      holder_privileges: [
+        "пополняемый баланс — от 10 $ до 10 000 $ одним платежом;",
+        "максимальный лимит трат в месяц — 100 000 $"
       ]
     }
   },
@@ -814,7 +867,7 @@ const MOCK_SERVICES = [
     tag: "Карта для зарубежных сервисов и путешествий",
     fee: "0 ₽",
     fee_sub: "",
-    issue_fee: "7 380 ₽",
+    issue_fee: "$29",
     deposit: "СБП, USDT",
     deposit_sub: "Автоматически",
     currency: "USD",
@@ -830,7 +883,7 @@ const MOCK_SERVICES = [
     travel: "1",
     details: {
       card_type: "Mastercard Virtual",
-      issue_fee: "7 380 ₽",
+      issue_fee: "$29",
       issue_notes: [
         "выпуск карты через мини-приложение в Telegram (Antarctic Wallet);",
         "срок действия карты составляет 12 месяцев с момента её выпуска;",
